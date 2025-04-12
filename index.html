@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fluxo de Expedição</title>
+  <title>Fluxo de Endereçamento</title>
   <style>
     html, body {
       margin: 0;
@@ -43,7 +43,7 @@
       flex-direction: column;
       justify-content: space-between;
       align-items: center;
-      padding: 100px 2rem 60px; /* compensação para navbar e espaço da seta */
+      padding: 100px 2rem 60px;
       box-sizing: border-box;
       text-align: center;
     }
@@ -73,14 +73,14 @@
 
     .scroll-hint {
       font-size: 1.5rem;
-      animation: pulse 2s infinite;
+      animation: pulse 1.5s infinite;
       opacity: 0.6;
       margin-top: 20px;
     }
 
     @keyframes pulse {
       0% { transform: translateY(0); opacity: 0.6; }
-      50% { transform: translateY(13px); opacity: 1; }
+      50% { transform: translateY(35px); opacity: 1; }
       100% { transform: translateY(0); opacity: 0.6; }
     }
 
@@ -92,41 +92,41 @@
 <body>
 
   <div class="navbar">
-    <h2>🚛 Fluxo de Expedição</h2>
+    <h2>📍 Fluxo de Endereçamento</h2>
   </div>
 
   <section>
     <div class="content">
-      <div class="icon">📥</div>
-      <h1>1. Pedido Recebido</h1>
-      <p>O sistema registra o pedido e ele é enviado automaticamente para a fila de separação.</p>
+      <div class="icon">🔐</div>
+      <h1>1. Acesso ao Sistema</h1>
+      <p>Efetuar login no coletor de dados com seu usuário.</p>
     </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
     <div class="content">
-      <div class="icon">📦</div>
-      <h1>2. Separação</h1>
-      <p>O operador utiliza o coletor de dados para localizar e separar os itens do pedido.</p>
+      <div class="icon">🔎</div>
+      <h1>2. Verificação de Endereçamento</h1>
+      <p>Acesse "Consulta de Estoque" no menu do coletor e verifique se o produto possui endereço vinculado no sistema.</p>
     </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
     <div class="content">
-      <div class="icon">🔍</div>
-      <h1>3. Conferência</h1>
-      <p>Conferente valida os itens separados, garantindo que tudo esteja conforme o pedido.</p>
+      <div class="icon">📌</div>
+      <h1>3. Definição da Localização</h1>
+      <p>Se o produto não tiver endereço, alinhe com o líder de logística onde ele será endereçado: principal ou adicional.</p>
     </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
     <div class="content">
-      <div class="icon">🚚</div>
-      <h1>4. Expedição</h1>
-      <p>Após conferido, o pedido é encaminhado para a expedição, aguardando o transporte.</p>
+      <div class="icon">📲</div>
+      <h1>4. Vinculação do Endereço</h1>
+      <p>Bipe o código de barras do produto e, em seguida, bipar a localização desejada na gôndola.</p>
     </div>
     <div class="scroll-hint">⬇️</div>
   </section>
@@ -134,8 +134,8 @@
   <section>
     <div class="content">
       <div class="icon">✅</div>
-      <h1>5. Saída da Mercadoria</h1>
-      <p>Mercadoria liberada, com emissão da nota fiscal e baixa no sistema.</p>
+      <h1>5. Confirmação</h1>
+      <p>O sistema registrará o produto como endereçado na localização vinculada.</p>
     </div>
   </section>
 
