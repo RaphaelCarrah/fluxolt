@@ -39,7 +39,7 @@
       border: 1px solid #444;
     }
     .emoji-picker {
-      display: flex;
+      display: none;
       flex-wrap: wrap;
       gap: 5px;
       max-height: 150px;
@@ -47,6 +47,9 @@
       background: #2b2b2b;
       padding: 10px;
       border-radius: 6px;
+    }
+    .emoji-picker.visible {
+      display: flex;
     }
     .emoji-picker span {
       cursor: pointer;
@@ -78,8 +81,8 @@
 
   <section id="builder">
     <h2>Etapas do Processo</h2>
-    <button onclick="adicionarEtapa()">➕ Adicionar Etapa</button>
     <div id="etapasContainer" class="etapas"></div>
+    <button onclick="adicionarEtapa()">➕ Adicionar Etapa</button>
   </section>
 
   <hr style="margin: 30px 0; border: 1px solid #444;">
@@ -97,15 +100,21 @@
 
   <script>
     let etapas = [];
-    const emojiSet = ['📥','📦','🔍','🚚','✅','📲','📌','🔐','🔎','🛠️','📋','💼','🏷️','🗂️','📁','🗃️','📊','📈','📉','🧾','📑'];
+    const emojiSet = Array.from("😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😗😙😚🙂🤗🤩🤔🤨😐😑😶🙄😏😣😥😮🤐😯😪😫😴😌😛😜😝🤤😒😓😔😕🙃🤑😲☹️🙁😖😞😟😤😢😭😦😧😨😩🤯😬😰😱🥵🥶😳🤪😵😡😠🤬😷🤒🤕🤢🤮🤧😇🥳🥴🥺🤠🤡🤥🤫🤭🧐🤓😈👿👹👺💀👻👽👾🤖🎃😺😸😹😻😼😽🙀😿😾");
 
     function emojiPickerHTML(index) {
-      return `<div class='emoji-picker' id='emojiPicker${index}'>` +
+      return `<button onclick=\"toggleEmojiPicker(${index})\">🙂 Escolher Emoji</button><div class='emoji-picker' id='emojiPicker${index}'>` +
         emojiSet.map(e => `<span onclick=\"selecionarEmoji(${index}, '${e}')\">${e}</span>`).join('') + '</div>';
+    }
+
+    function toggleEmojiPicker(index) {
+      const picker = document.getElementById(`emojiPicker${index}`);
+      picker.classList.toggle('visible');
     }
 
     function selecionarEmoji(index, emoji) {
       document.getElementById(`emojiInput${index}`).value = emoji;
+      toggleEmojiPicker(index);
     }
 
     function adicionarEtapa() {
@@ -168,7 +177,7 @@
       const link = document.createElement('a');
       link.href = url;
       link.download = 'fluxo.html';
-      document.body.appendChild(link);
+      document.body.appendChild(link); 
       link.click();
       document.body.removeChild(link);
     }
