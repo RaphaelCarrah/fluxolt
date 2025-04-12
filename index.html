@@ -16,17 +16,44 @@
       color: #ffffff;
     }
 
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #1f1f1f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      border-bottom: 1px solid #333;
+    }
+
+    .navbar h2 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
     section {
       scroll-snap-align: start;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      padding: 60px 2rem 80px;
+      padding: 100px 2rem 60px; /* compensação para navbar e espaço da seta */
       box-sizing: border-box;
       text-align: center;
-      position: relative;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
     }
 
     h1 {
@@ -45,11 +72,10 @@
     }
 
     .scroll-hint {
-      position: absolute;
-      bottom: 20px;
       font-size: 1.5rem;
       animation: pulse 1.5s infinite;
       opacity: 0.6;
+      margin-top: 20px;
     }
 
     @keyframes pulse {
@@ -65,38 +91,52 @@
 </head>
 <body>
 
+  <div class="navbar">
+    <h2>🚛 Fluxo de Expedição</h2>
+  </div>
+
   <section>
-    <div class="icon">📥</div>
-    <h1>1. Pedido Recebido</h1>
-    <p>O sistema registra o pedido e ele é enviado automaticamente para a fila de separação.</p>
+    <div class="content">
+      <div class="icon">📥</div>
+      <h1>1. Pedido Recebido</h1>
+      <p>O sistema registra o pedido e ele é enviado automaticamente para a fila de separação.</p>
+    </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
-    <div class="icon">📦</div>
-    <h1>2. Separação</h1>
-    <p>O operador utiliza o coletor de dados para localizar e separar os itens do pedido.</p>
+    <div class="content">
+      <div class="icon">📦</div>
+      <h1>2. Separação</h1>
+      <p>O operador utiliza o coletor de dados para localizar e separar os itens do pedido.</p>
+    </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
-    <div class="icon">🔍</div>
-    <h1>3. Conferência</h1>
-    <p>Conferente valida os itens separados, garantindo que tudo esteja conforme o pedido.</p>
+    <div class="content">
+      <div class="icon">🔍</div>
+      <h1>3. Conferência</h1>
+      <p>Conferente valida os itens separados, garantindo que tudo esteja conforme o pedido.</p>
+    </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
-    <div class="icon">🚚</div>
-    <h1>4. Expedição</h1>
-    <p>Após conferido, o pedido é encaminhado para a expedição, aguardando o transporte.</p>
+    <div class="content">
+      <div class="icon">🚚</div>
+      <h1>4. Expedição</h1>
+      <p>Após conferido, o pedido é encaminhado para a expedição, aguardando o transporte.</p>
+    </div>
     <div class="scroll-hint">⬇️</div>
   </section>
 
   <section>
-    <div class="icon">✅</div>
-    <h1>5. Saída da Mercadoria</h1>
-    <p>Mercadoria liberada, com emissão da nota fiscal e baixa no sistema.</p>
+    <div class="content">
+      <div class="icon">✅</div>
+      <h1>5. Saída da Mercadoria</h1>
+      <p>Mercadoria liberada, com emissão da nota fiscal e baixa no sistema.</p>
+    </div>
   </section>
 
 </body>
