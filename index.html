@@ -9,6 +9,7 @@
       margin: 0;
       padding: 0;
       scroll-snap-type: y mandatory;
+      scroll-padding-top: 60px; /* evita que o topo fique escondido */
       overflow-y: scroll;
       height: 100vh;
       font-family: sans-serif;
@@ -45,7 +46,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 100px 2rem 2rem;
+      padding: 100px 2rem 80px; /* padding-bottom aumentado para a seta */
       box-sizing: border-box;
       text-align: center;
       position: relative;
@@ -127,7 +128,6 @@
     <div class="icon">✅</div>
     <h1>5. Saída da Mercadoria</h1>
     <p>Mercadoria liberada, com emissão da nota fiscal e baixa no sistema.</p>
-    <!-- sem seta aqui -->
   </section>
 
 </body>
