@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxo de Expedição</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+      font-family: sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+    section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 500px;
+    }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <section>
+    <div class="icon">📥</div>
+    <h1>1. Pedido Recebido</h1>
+    <p>O sistema registra o pedido e ele é enviado automaticamente para a fila de separação.</p>
+  </section>
+
+  <section>
+    <div class="icon">📦</div>
+    <h1>2. Separação</h1>
+    <p>O operador utiliza o coletor de dados para localizar e separar os itens do pedido.</p>
+  </section>
+
+  <section>
+    <div class="icon">🔍</div>
+    <h1>3. Conferência</h1>
+    <p>Conferente valida os itens separados, garantindo que tudo esteja conforme o pedido.</p>
+  </section>
+
+  <section>
+    <div class="icon">🚚</div>
+    <h1>4. Expedição</h1>
+    <p>Após conferido, o pedido é encaminhado para a expedição, aguardando o transporte.</p>
+  </section>
+
+  <section>
+    <div class="icon">✅</div>
+    <h1>5. Saída da Mercadoria</h1>
+    <p>Mercadoria liberada, com emissão da nota fiscal e baixa no sistema.</p>
+  </section>
+
+</body>
+</html>
