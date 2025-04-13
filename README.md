@@ -55,7 +55,7 @@ LOGO FLUTUANTE:
 A logo aparece fixa no canto inferior esquerdo, com uma animação de sobe e desce contínua.  
 Ela é embutida em Base64 diretamente no HTML gerado, como no exemplo abaixo:
 
-<img class="floating-logo" src="data:image/png;base64,SUA_LOGO_AQUI" alt="Logo Lafaiete" />
+<img class="floating-logo" src="data:image/png;base64,SUA_LOGO_AQUI" alt="logo" />
 
 DICAS:
 
