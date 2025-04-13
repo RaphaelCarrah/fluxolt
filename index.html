@@ -11,21 +11,18 @@
       color: #fff;
       padding: 20px;
     }
-    input, textarea, select, button {
+    input, textarea, button {
       width: 100%;
       margin: 8px 0;
       padding: 10px;
       border-radius: 4px;
       border: none;
       font-size: 1rem;
-    }
-    input, textarea, select {
       background: #2b2b2b;
       color: #fff;
     }
     button {
       background-color: #00aaff;
-      color: #fff;
       cursor: pointer;
     }
     .etapas {
@@ -38,34 +35,25 @@
       margin-bottom: 20px;
       border: 1px solid #444;
     }
-    .emoji-picker {
-      display: none;
-      flex-wrap: wrap;
-      gap: 5px;
-      max-height: 150px;
-      overflow-y: auto;
-      background: #2b2b2b;
-      padding: 10px;
-      border-radius: 6px;
+    .preview-img {
+      display: block;
+      margin: 10px auto;
+      max-width: 100%;
+      width: 20vw;
+      height: auto;
+      border-radius: 4px;
     }
-    .emoji-picker.visible {
-      display: flex;
-    }
-    .emoji-picker span {
-      cursor: pointer;
-      font-size: 1.5rem;
-    }
-    .preview-area {
-      background: #111;
-      padding: 20px;
-      border-radius: 6px;
-      margin-top: 30px;
-    }
-    iframe {
-      width: 100%;
-      height: 80vh;
-      border: none;
-      background: #fff;
+    .remove-btn {
+      background: #aa0000;
+      color: #fff;
+      padding: 5px 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+      display: block;
+      text-align: center;
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
@@ -88,34 +76,12 @@
   <hr style="margin: 30px 0; border: 1px solid #444;">
 
   <section id="acoes">
-    <button onclick="visualizarHTML()">👁️ Visualizar</button>
     <button onclick="baixarHTML()">💾 Baixar HTML</button>
     <button onclick="baixarPDF()">🖨️ Salvar em PDF</button>
   </section>
 
-  <div class="preview-area">
-    <h2>Pré-visualização:</h2>
-    <iframe id="previewFrame"></iframe>
-  </div>
-
   <script>
     let etapas = [];
-    const emojiSet = Array.from("😀😁😂🤣😃😄😅😆😉😊😋😎😍😘😗😙😚🙂🤗🤩🤔🤨😐😑😶🙄😏😣😥😮🤐😯😪😫😴😌😛😜😝🤤😒😓😔😕🙃🤑😲☹️🙁😖😞😟😤😢😭😦😧😨😩🤯😬😰😱🥵🥶😳🤪😵😡😠🤬😷🤒🤕🤢🤮🤧😇🥳🥴🥺🤠🤡🤥🤫🤭🧐🤓😈👿👹👺💀👻👽👾🤖🎃😺😸😹😻😼😽🙀😿😾");
-
-    function emojiPickerHTML(index) {
-      return `<button onclick=\"toggleEmojiPicker(${index})\">🙂 Escolher Emoji</button><div class='emoji-picker' id='emojiPicker${index}'>` +
-        emojiSet.map(e => `<span onclick=\"selecionarEmoji(${index}, '${e}')\">${e}</span>`).join('') + '</div>';
-    }
-
-    function toggleEmojiPicker(index) {
-      const picker = document.getElementById(`emojiPicker${index}`);
-      picker.classList.toggle('visible');
-    }
-
-    function selecionarEmoji(index, emoji) {
-      document.getElementById(`emojiInput${index}`).value = emoji;
-      toggleEmojiPicker(index);
-    }
 
     function adicionarEtapa() {
       const index = etapas.length;
@@ -124,9 +90,12 @@
       div.className = 'etapa';
       div.innerHTML = `
         <label>Ícone (emoji ou imagem)</label>
-        <input type="text" id="emojiInput${index}" placeholder="Escolha um emoji ou envie imagem" readonly>
-        ${emojiPickerHTML(index)}
+        <input type="text" id="icon${index}" placeholder="Ex: 📥">
         <input type="file" id="imgInput${index}" accept="image/*" onchange="carregarImagem(${index})">
+        <div id="previewContainer${index}" style="text-align:center; display:none;">
+          <img id="previewImg${index}" class="preview-img">
+          <button class="remove-btn" onclick="removerImagem(${index})">🗑️ Remover Imagem</button>
+        </div>
 
         <label>Título da Etapa</label>
         <input type="text" id="titulo${index}" placeholder="Ex: Separação">
@@ -140,55 +109,167 @@
 
     function carregarImagem(index) {
       const fileInput = document.getElementById(`imgInput${index}`);
+      const preview = document.getElementById(`previewImg${index}`);
+      const container = document.getElementById(`previewContainer${index}`);
       const reader = new FileReader();
       reader.onload = function(e) {
-        document.getElementById(`emojiInput${index}`).value = `<img src='${e.target.result}' style='width:60px;height:60px;'>`;
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        container.style.display = 'block';
+        document.getElementById(`icon${index}`).value =
+          `<img src='${e.target.result}' style='width:20vw;height:auto;'>`;
       };
       reader.readAsDataURL(fileInput.files[0]);
     }
 
+    function removerImagem(index) {
+      const preview = document.getElementById(`previewImg${index}`);
+      const fileInput = document.getElementById(`imgInput${index}`);
+      const container = document.getElementById(`previewContainer${index}`);
+      document.getElementById(`icon${index}`).value = '';
+      preview.src = '';
+      preview.style.display = 'none';
+      container.style.display = 'none';
+      fileInput.value = '';
+    }
+
     function gerarHTMLFinal() {
       const titulo = document.getElementById('fluxoTitulo').value || 'Fluxo Operacional';
-      let html = `<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>${titulo}</title>\n<style>\nhtml, body {margin:0;padding:0;scroll-snap-type:y mandatory;overflow-y:scroll;height:100vh;font-family:sans-serif;background-color:#121212;color:#ffffff;}\n.navbar {position:fixed;top:0;left:0;width:100%;height:60px;background-color:#1f1f1f;display:flex;align-items:center;justify-content:center;z-index:999;border-bottom:1px solid #333;}\n.navbar h2 {color:#fff;font-size:1.2rem;margin:0;}\nsection {scroll-snap-align:start;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:100px 2rem 60px;box-sizing:border-box;text-align:center;}\n.content {display:flex;flex-direction:column;justify-content:center;align-items:center;flex:1;}\nh1 {font-size:2rem;margin-bottom:1rem;}\np {font-size:1.2rem;max-width:500px;}\n.icon {font-size:4rem;margin-bottom:1rem;}\n.scroll-hint {font-size:1.5rem;animation:pulse 1.5s infinite;opacity:0.6;margin-top:20px;}\n@keyframes pulse {0%{transform:translateY(0);opacity:0.6;}50%{transform:translateY(35px);opacity:1;}100%{transform:translateY(0);opacity:0.6;}}\nsection:last-of-type .scroll-hint{display:none;}\n</style>\n</head>\n<body>\n<div class=\"navbar\"><h2>${titulo}</h2></div>`;
+      let html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${titulo}</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+      font-family: sans-serif;
+      background-color: #121212;
+      color: #ffffff;
+    }
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background-color: #1f1f1f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      border-bottom: 1px solid #333;
+    }
+    .navbar h2 {
+      color: #fff;
+      font-size: 1.2rem;
+      margin: 0;
+    }
+    section {
+      scroll-snap-align: start;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 100px 2rem 60px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+    .content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 500px;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+    }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      word-wrap: break-word;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      text-align: center;
+    }
+    .scroll-hint {
+      font-size: 1.5rem;
+      animation: pulse 1.5s infinite;
+      opacity: 0.6;
+      margin-top: 20px;
+    }
+    @keyframes pulse {
+      0% { transform: translateY(0); opacity: 0.6; }
+      50% { transform: translateY(35px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 0.6; }
+    }
+    section:last-of-type .scroll-hint {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>${titulo}</h2>
+  </div>`;
 
       etapas.forEach((i, idx) => {
-        const icon = document.getElementById(`emojiInput${i}`).value;
-        const titulo = document.getElementById(`titulo${i}`).value;
+        const icon = document.getElementById(`icon${i}`).value;
+        const tituloEtapa = document.getElementById(`titulo${i}`).value;
         const descricao = document.getElementById(`descricao${i}`).value;
-        html += `\n<section><div class=\"content\"><div class=\"icon\">${icon}</div><h1>${idx + 1}. ${titulo}</h1><p>${descricao}</p></div><div class=\"scroll-hint\">⬇️</div></section>`;
+        html += `
+  <section>
+    <div class="content">
+      <div class="icon">${icon}</div>
+      <h1>${idx + 1}. ${tituloEtapa}</h1>
+      <p>${descricao}</p>
+    </div>
+    <div class="scroll-hint">⬇️</div>
+  </section>`;
       });
 
-      html += `\n</body>\n</html>`;
+      html += `
+</body>
+</html>`;
       return html;
     }
 
-    function visualizarHTML() {
-      const html = gerarHTMLFinal();
-      const preview = document.getElementById('previewFrame').contentWindow.document;
-      preview.open();
-      preview.write(html);
-      preview.close();
-    }
-
     function baixarHTML() {
-      const conteudo = gerarHTMLFinal();
-      const blob = new Blob([conteudo], { type: 'text/html' });
+      const blob = new Blob([gerarHTMLFinal()], { type: 'text/html' });
       const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'fluxo.html';
-      document.body.appendChild(link); 
-      link.click();
-      document.body.removeChild(link);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'fluxo.html';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
     function baixarPDF() {
-      const html = gerarHTMLFinal();
-      const novaJanela = window.open('', '_blank');
-      novaJanela.document.write(html);
-      novaJanela.document.close();
-      novaJanela.focus();
-      setTimeout(() => novaJanela.print(), 500);
+      const win = window.open('', '_blank');
+      win.document.write(gerarHTMLFinal());
+      win.document.close();
+      setTimeout(() => win.print(), 500);
     }
   </script>
 </body>
